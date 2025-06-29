@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Change The Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0b0c10;
+      color: #ffffff;
+      line-height: 1.6;
+      transition: background-color 0.3s ease;
+    }
+    body.theme-green {
+      background: #0d4d3d;
+    }
+    body.theme-purple {
+      background: #2d1b4e;
+    }
+    body.theme-blue {
+      background: #1a2332;
+    }
+    body.theme-galaxy {
+      background: linear-gradient(45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+      background-size: 400% 400%;
+      animation: galaxyAnimation 15s ease infinite;
+    }
+    @keyframes galaxyAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    nav {
+      background-color: #1f2833;
+      padding: 1em 2em;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #66fcf1;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #45a29e;
+    }
+    .container {
+      padding: 4em 2em;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #66fcf1;
+      margin-bottom: 0.5em;
+      font-size: 2.5em;
+    }
+    p, li, input, textarea {
+      color: #c5c6c7;
+    }
+    .form-input {
+      margin-bottom: 1.2em;
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      padding: 0.75em;
+      background: #1f2833;
+      border: 1px solid #45a29e;
+      color: #ffffff;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #66fcf1;
+      border: none;
+      padding: 0.75em 1.5em;
+      color: #0b0c10;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #45a29e;
+    }
+    .volunteer-btn {
+      background-color: #ff6b6b;
+      color: white;
+      margin-left: 1em;
+      padding: 0.5em 1em;
+      font-size: 0.9em;
+    }
+    .volunteer-btn:hover {
+      background-color: #ff5252;
+    }
+    iframe {
+      border: none;
+      border-radius: 8px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    footer {
+      background: #1f2833;
+      color: #c5c6c7;
+      text-align: center;
+      padding: 1.5em;
+      margin-top: 3em;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .tagline {
+      font-size: 2.8em;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 1em;
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+    }
+    .category-button {
+      display: inline-block;
+      margin: 0.5em;
+      padding: 0.75em 1.5em;
+      background-color: #45a29e;
+      color: #0b0c10;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .category-button:hover {
+      background-color: #66fcf1;
+    }
+    .points-display {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1f2833;
+      padding: 1em;
+      border-radius: 8px;
+      border: 2px solid #66fcf1;
+      z-index: 1001;
+    }
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1em;
+      margin-top: 2em;
+    }
+    .photo-item {
+      border: 2px solid #45a29e;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #1f2833;
+    }
+    .photo-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    .photo-item p {
+      padding: 0.5em;
+      font-size: 0.9em;
+    }
+    .theme-selector {
+      margin-top: 2em;
+      padding: 1.5em;
+      background: #1f2833;
+      border-radius: 8px;
+    }
+    .theme-option {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      margin: 0.5em;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .theme-option:hover {
+      border-color: #66fcf1;
+    }
+    .theme-option.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .theme-original { background: #0b0c10; }
+    .theme-green-option { background: #0d4d3d; }
+    .theme-purple-option { background: #2d1b4e; }
+    .theme-blue-option { background: #1a2332; }
+    .theme-galaxy-option { 
+      background: linear-gradient(45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+      background-size: 200% 200%;
+      animation: galaxyAnimation 5s ease infinite;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+    .modal-content {
+      background-color: #1f2833;
+      margin: 10% auto;
+      padding: 2em;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 500px;
+    }
+    .close {
+      color: #66fcf1;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: #45a29e;
+    }
+    #photo-upload {
+      margin: 1em 0;
+    }
+    .story-card {
+      background: #1f2833;
+      border-radius: 8px;
+      padding: 1.5em;
+      margin: 1.5em 0;
+      border-left: 4px solid #66fcf1;
+    }
+    .story-card h3 {
+      color: #66fcf1;
+      margin-bottom: 0.5em;
+    }
+    .story-card .story-meta {
+      color: #45a29e;
+      font-size: 0.9em;
+      margin-bottom: 1em;
+    }
+    .story-card .story-content {
+      line-height: 1.7;
+    }
+    .story-card .story-impact {
+      background: #0b0c10;
+      padding: 1em;
+      border-radius: 4px;
+      margin-top: 1em;
+      border-left: 3px solid #45a29e;
+    }
+    .highlight-text {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #66fcf1;
+    }
+    .badges-section {
+      margin-top: 3em;
+      padding: 2em;
+      background: #1f2833;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .badges-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5em;
+      margin-top: 2em;
+      flex-wrap: wrap;
+    }
+    .badge-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1em;
+      background: #0b0c10;
+      border-radius: 8px;
+      border: 2px solid #45a29e;
+      transition: transform 0.3s ease;
+      min-width: 120px;
+    }
+    .badge-item:hover {
+      transform: translateY(-5px);
+      border-color: #66fcf1;
+    }
+    .badge-item.earned {
+      border-color: #ffd700;
+      background: #2a2a0f;
+    }
+    .badge-icon {
+      width: 50px;
+      height: 50px;
+      background: #66fcf1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    .badge-icon.earned {
+      background: #ffd700;
+      color: #000;
+    }
+    .badge-name {
+      color: #66fcf1;
+      font-weight: bold;
+      margin-bottom: 0.3em;
+      font-size: 0.9em;
+    }
+    .badge-description {
+      color: #c5c6c7;
+      font-size: 0.8em;
+      text-align: center;
+    }
+    .badge-points {
+      color: #45a29e;
+      font-size: 0.8em;
+      margin-top: 0.2em;
+    }
+    .approval-notice {
+      background: #2d4a22;
+      border: 1px solid #4caf50;
+      padding: 1em;
+      border-radius: 4px;
+      margin-top: 1em;
+      color: #c8e6c9;
+    }
+    .pending-submissions {
+      margin-top: 2em;
+      padding: 1.5em;
+      background: #1f2833;
+      border-radius: 8px;
+    }
+    .pending-item {
+      background: #0b0c10;
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 4px;
+      border-left: 3px solid #ffa726;
+    }
+    .pending-status {
+      color: #ffa726;
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .tagline {
+        font-size: 2em;
+      }
+      h1, h2 {
+        font-size: 2em;
+      }
+      nav {
+        gap: 15px;
+        padding: 1em;
+      }
+      nav a {
+        font-size: 1em;
+      }
+      .container {
+        padding: 2em 1em;
+      }
+      .points-display {
+        top: 10px;
+        right: 10px;
+        padding: 0.5em;
+      }
+      .badges-container {
+        gap: 1em;
+      }
+      .badge-item {
+        min-width: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="points-display">
+    <strong>Your Points: <span id="user-points">0</span></strong>
+  </div>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#why-we-exist">Why We Exist</a>
+    <a href="#map">NGO Map</a>
+    <a href="#impact-stories">Impact Stories</a>
+    <a href="#signup">Volunteer Sign Up</a>
+    <a href="#contact">Contact</a>
+    <a href="#leaderboard">Leaderboard</a>
+    <a href="#photo-upload-section">Upload Photo</a>
+  </nav>
+
+  <div id="home" class="container">
+    <h1 class="tagline">BE THE CHANGE. HELP THOSE WHO HELP.</h1>
+    <h1>Welcome to Change The Game</h1>
+    <h3><p>Change The Game aims to bridge the gap between passionate volunteers and impactful NGOs in Bangalore by creating a digital platform that promotes collaboration, amplifies social good, and empowers citizens to contribute meaningfully to causes they care about.</p></h3>
+  </div>
+
+  <div id="why-we-exist" class="container">
+    <h2>Why We Exist</h2>
+    
+    <p>Hi, My name is Sankalp Kashyap from The Samhita Academy. My website aims to create awareness on smaller organizations by connecting volunteers to these NGOs, so as to encourage volunteers, <span class="highlight-text">LIKE YOU!</span></p>
+
+    <h3 style="color: #66fcf1; font-size: 1.8em; margin-top: 2em;">Our Mission</h3>
+    <p>70% of citizens I surveyed didn't know about NGOs in their own neighborhood. Here's how I'm changing that:</p>
+    <ul>
+      <li>Highlighting real-life stories from volunteers and NGO workers.</li>
+      <li>Spotlighting impactful, grassroots work being done every day.</li>
+      <li>Sharing infographics from our awareness survey and key statistics.</li>
+    </ul>
+
+    <h3 style="color: #66fcf1; font-size: 1.8em; margin-top: 2em;">Survey Report</h3>
+    <p>I conducted a survey and understood a little bit more on what people know about NGOs.</p>
+    <a href="https://docs.google.com/document/d/1xyw_9FNHEznXr1EPvlPFkPU2TTbIBGlHqtcElf-rNqE/edit?usp=sharing" target="_blank" style="display: inline-block; margin-top: 1em; background-color: #66fcf1; color: #0b0c10; padding: 0.75em 1.5em; border-radius: 4px; text-decoration: none; font-weight: bold;">Survey Results</a>
+  </div>
+
+  <div id="impact-stories" class="container">
+    <h2>Impact Stories</h2>
+    <p>Real stories from volunteers and NGOs making a difference in Bangalore. These stories showcase the incredible impact of community collaboration.</p>
+
+    <div class="story-card">
+      <h3>Transforming Lives Through Education - Parikrma Foundation</h3>
+      <div class="story-meta">Volunteer: Priya Sharma | NGO: Parikrma Humanity Foundation | Date: March 2025</div>
+      <div class="story-content">
+        <p>"When I first walked into the Parikrma center in Koramangala, I was amazed by the energy and enthusiasm of the children. Despite coming from challenging backgrounds, their eagerness to learn was infectious. I started as a weekend English tutor, but soon found myself mentoring students on career choices and life skills."</p>
+        <p>"One of my students, Ravi, who struggled with reading when I first met him, recently scored 85% in his 10th standard exams. Seeing his transformation from a shy, hesitant child to a confident young man pursuing his dreams of becoming an engineer has been the most rewarding experience of my life."</p>
+      </div>
+      <div class="story-impact">
+        <strong>Impact:</strong> 15 students mentored, 12 improved their grades by over 20%, 3 students secured scholarships for higher education.
+      </div>
+    </div>
+
+    <div class="story-card">
+      <h3>Bringing Healthcare to the Doorstep - Reach Lives</h3>
+      <div class="story-meta">Volunteer: Dr. Arun Kumar | NGO: Reach Lives | Date: February 2025</div>
+      <div class="story-content">
+        <p>"As a practicing doctor, I wanted to give back to the community. Reach Lives provided the perfect platform. Every Saturday, I join their mobile health camps in the slums around Bangalore. What started as basic health check-ups has evolved into a comprehensive healthcare program."</p>
+        <p>"Last month, we organized a dental camp where we treated over 200 children. Many had never seen a dentist before. The joy on a child's face after getting relief from a toothache that had been bothering them for months - that's what keeps me going."</p>
+      </div>
+      <div class="story-impact">
+        <strong>Impact:</strong> 500+ patients treated, 50 children received free dental care, 25 families connected to government health schemes.
+      </div>
+    </div>
+
+    <div class="story-card">
+      <h3>Creating Family Bonds - SOS Children's Village</h3>
+      <div class="story-meta">Volunteer: Meera Nair | NGO: SOS Children's Village | Date: January 2025</div>
+      <div class="story-content">
+        <p>"I started volunteering at SOS Children's Village as an art therapy instructor. The family-style approach here is truly unique - children live in homes with SOS mothers, creating real family bonds. I've watched children who came from difficult situations bloom into confident, caring individuals."</p>
+        <p>"One of the most touching moments was when 8-year-old Kavya, who rarely spoke when she first arrived, painted a beautiful picture of her 'family' - her SOS mother and siblings. She told me, 'This is my real family now.' That painting still hangs in my office as a reminder of why this work matters."</p>
+      </div>
+      <div class="story-impact">
+        <strong>Impact:</strong> 30 children participated in art therapy, 80% showed improved emotional expression, 5 children's artwork displayed in city exhibition.
+      </div>
+    </div>
+
+    <div class="story-card">
+      <h3>Empowering Youth Through Skills - Makkala Jagriti</h3>
+      <div class="story-meta">Volunteer: Rajesh Patel | NGO: Makkala Jagriti | Date: December 2024</div>
+      <div class="story-content">
+        <p>"I'm a software engineer who wanted to share my technical skills with underprivileged youth. Makkala Jagriti's SPICE program was the perfect fit. I started teaching basic computer skills to teenagers from urban poor neighborhoods."</p>
+        <p>"What amazed me was their hunger to learn. These kids, who had limited exposure to technology, were creating basic websites within weeks. Three of my students have now secured internships with local IT companies. Technology truly is a great equalizer."</p>
+      </div>
+      <div class="story-impact">
+        <strong>Impact:</strong> 25 youth trained in computer skills, 8 completed advanced courses, 3 secured employment in IT sector.
+      </div>
+    </div>
+
+    <div class="story-card">
+      <h3>Supporting Our Elders - Vishranthi Trust</h3>
+      <div class="story-meta">Volunteer: Sunita Reddy | NGO: Vishranthi Trust | Date: November 2024</div>
+      <div class="story-content">
+        <p>"Spending time with the elderly residents at Vishranthi Trust has been incredibly enriching. Every Sunday, I organize music sessions where residents share songs from their youth. The stories they tell, the wisdom they share, and the smiles on their faces make every moment worthwhile."</p>
+        <p>"One resident, 78-year-old Kamala aunty, was initially very withdrawn. Through our music sessions, she opened up and even taught us traditional folk songs. She now leads our weekly cultural programs and has become a source of joy for everyone."</p>
+      </div>
+      <div class="story-impact">
+        <strong>Impact:</strong> 42 elderly residents engaged, weekly cultural programs established, improved social interaction and mental well-being.
+      </div>
+    </div>
+
+    <div style="background: #1f2833; padding: 2em; border-radius: 8px; margin-top: 2em; text-align: center;">
+      <h3 style="color: #66fcf1;">Want to Share Your Story?</h3>
+      <p>Have you volunteered with an NGO in Bangalore? Share your impact story and inspire others to make a difference!</p>
+      <button onclick="openVolunteerModal('Share Your Story')" style="margin-top: 1em;">Share Your Impact Story</button>
+    </div>
+  </div>
+
+  <div id="map" class="container" style="text-align: center;">
+    <h2 style="color: #66fcf1; font-size: 2.5em; margin-bottom: 1em;">NGO Map</h2>
+    <a href="#educational-ngos" class="category-button">Educational</a>
+    <a href="#healthcare-ngos" class="category-button">Health</a>
+    <a href="#senior-citizens-ngos" class="category-button">Senior Citizens Care</a>
+    <a href="#children-ngos" class="category-button">Orphanage (Child Protection)</a>
+  </div>
+
+  <div id="educational-ngos" class="container">
+    <h2>NGO PROFILE: Educational</h2>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Parikrma Humanity Foundation
+      <button class="volunteer-btn" onclick="openVolunteerModal('Parikrma Humanity Foundation')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Multiple centres across needy urban areas in Bengaluru. <a href="https://maps.app.goo.gl/NDJKmAXhWPgMEjoK8" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Offers free K–12 education in CBSE English medium, plus meals, healthcare, counseling.</p>
+    <p><strong>Website:</strong> <a href="https://parikrmafoundation.org/" target="_blank" style="color:#66fcf1">parikrmafoundation.org</a></p>
+    <p><strong>Reach:</strong> ~2,000 children across 4 learning centres and a junior college.</p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> +91-9876543210</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Makkala Jagriti
+      <button class="volunteer-btn" onclick="openVolunteerModal('Makkala Jagriti')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Urban-poor neighbourhoods in Bengaluru. <a href="https://maps.app.goo.gl/JDfhmRSVVHDya2wv5" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Focuses on early childhood care, holistic school support, life-skills, youth empowerment using their "SPICE" model.</p>
+    <p><strong>Website:</strong> <a href="https://makkalajagriti.org" target="_blank" style="color:#66fcf1">makkalajagriti.org</a></p>
+    <p><strong>Reach:</strong> Over 80,000 children and youth since 2003, ongoing across multiple centres.</p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> +91-9876543211</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Make A Difference (MAD)
+      <button class="volunteer-btn" onclick="openVolunteerModal('Make A Difference (MAD)')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Bengaluru operations plus 23 other cities. <a href="https://maps.app.goo.gl/fvFjugbo7eegsm9e9" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Works with orphaned and at-risk children in shelters, offering mentorship, academic support, interventions, and ecosystem change.</p>
+    <p><strong>Website:</strong> <a href="https://makeadiff.in/" target="_blank" style="color:#66fcf1">makeadiff.in</a></p>
+    <p><strong>Reach:</strong> ~3,460 children in 67 shelters across India; core Bangalore team based locally.</p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> +91-9876543212</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Shanti Bhavan Children's Project
+      <button class="volunteer-btn" onclick="openVolunteerModal('Shanti Bhavan Children\'s Project')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> HQ in Bengaluru; school in Tamil Nadu. <a href="https://maps.app.goo.gl/n1mu18mQv6YDJ2Eo6" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Offers free residential pre-K–12 education for Dalit children to break caste and poverty cycles.</p>
+    <p><strong>Website:</strong> <a href="https://www.shantibhavanchildren.org/" target="_blank" style="color:#66fcf1">shantibhavanchildren.org</a></p>
+    <p><strong>Reach:</strong> Approximately 300 residential students as of 2017.</p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> +91-9876543213</p>
+  </div>
+
+  <div id="healthcare-ngos" class="container">
+    <h2>NGO PROFILE: Healthcare</h2>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">DESIRE SOCIETY
+      <button class="volunteer-btn" onclick="openVolunteerModal('DESIRE SOCIETY')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Lakshmipura Village, Bannerghata Road</p>
+    <p><strong>Mission:</strong> Accommodates children with HIV virus of ages 4 to 16 years of age.</p>
+    <p><strong>Reach:</strong> 20 people</p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> 6360799006</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Sankalp India Foundation
+      <button class="volunteer-btn" onclick="openVolunteerModal('Sankalp India Foundation')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Gokula, 8th Main, 4th Block, Bengaluru. <a href="https://maps.app.goo.gl/xmboARkBx7X2P7us9" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Blood donation services, thalassemia support, bone marrow drives; maintains a state-wide blood helpline.</p>
+    <p><strong>Reach:</strong> Thousands of donors and patients served since 2003.</p>
+    <p><strong>Website:</strong> <a href="https://www.sankalpindia.net/" target="_blank" style="color:#66fcf1">sankalpindia.net</a></p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> 9480044444</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Reach Lives
+      <button class="volunteer-btn" onclick="openVolunteerModal('Reach Lives')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Bengaluru (multiple slum locations). <a href="https://maps.app.goo.gl/djUCGWiLbsdPKpDa9" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Provides medical care and nutrition to underprivileged children via health camps (dental, eye care, vaccination) in slums.</p>
+    <p><strong>Reach:</strong> Organizes regular camps affecting hundreds of children each year.</p>
+    <p><strong>Website:</strong> <a href="https://www.reachlives.com/" target="_blank" style="color:#66fcf1">reachlives.com</a></p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> 9900541676</p>
+  </div>
+
+  <div id="senior-citizens-ngos" class="container">
+    <h2>NGO PROFILE: Senior Citizens</h2>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Sri Sadhguru Sai Charitable Trust
+      <button class="volunteer-btn" onclick="openVolunteerModal('Sri Sadhguru Sai Charitable Trust')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Lakshmipura Village, Bannerghata Road <a href="https://maps.app.goo.gl/5LernqW9gwvDKDv76" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Accommodates children with HIV virus of ages 4 to 16 years of age.</p>
+    <p><strong>Reach:</strong> 20 people</p>
+    <p><strong>Website:</strong> <a href="https://sadhgurusai.org/" target="_blank" style="color:#66fcf1">sadhgurusai.org</a></p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> 6360799006</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Vishranthi Trust
+      <button class="volunteer-btn" onclick="openVolunteerModal('Vishranthi Trust')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Jadigenahalli, outskirts of Bengaluru. <a href="https://maps.app.goo.gl/CKy23tAAxhJdYz7x7" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> Provides a compassionate elder-care home, vocational training for rural youth and women, and a child adoption program.</p>
+    <p><strong>Reach:</strong> ~42 elderly residents and 73 children in the orphanage; has facilitated 38 adoptions.</p>
+    <p><strong>Website:</strong> <a href="https://www.vishranthitrust.org/" target="_blank" style="color:#66fcf1">vishranthitrust.org</a></p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> (Add number if needed)</p>
+  </div>
+
+  <div id="children-ngos" class="container">
+    <h2>NGO PROFILE: Children</h2>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">Sparsha Trust
+      <button class="volunteer-btn" onclick="openVolunteerModal('Sparsha Trust')">Volunteer</button>
+    </h3>
+    <p><strong>Programs:</strong></p>
+    <ul>
+      <li><strong>Nisarga Grama:</strong> Residential care for 250 children</li>
+      <li><strong>Makkala Dhama:</strong> Girls' residential campus for 450</li>
+    </ul>
+    <p><a href="https://maps.app.goo.gl/fbU9DPr8krqTpr9G8" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Website:</strong> <a href="https://sparsha.org/" target="_blank" style="color:#66fcf1">sparsha.org</a></p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> 9756734583</p>
+
+    <h3 style="font-size: 2em; color: #66fcf1;">SOS Children's Village, Bangalore
+      <button class="volunteer-btn" onclick="openVolunteerModal('SOS Children\'s Village, Bangalore')">Volunteer</button>
+    </h3>
+    <p><strong>Location:</strong> Hulimavu, Bannerghatta Road. <a href="https://maps.app.goo.gl/KGry8LPLnvfvx4Wx6" target="_blank" style="color:#66fcf1">MAP</a></p>
+    <p><strong>Mission:</strong> "Family-style" residential model—children live in family homes with SOS "mothers," plus youth homes and educational support.</p>
+    <p><strong>Reach:</strong> 167 children in 16 homes; 100 youth in Youth House; 476 families supported under Family Strengthening Programme</p>
+    <p><strong>Website:</strong> <a href="https://soschildrensvillages.in" target="_blank" style="color:#66fcf1">soschildrensvillages.in</a></p>
+    <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
+    <p><strong>Phone:</strong> 8682848483</p>
+  </div>
+
+  <div id="signup" class="container">
+    <h2>Volunteer Sign Up</h2>
+    <form>
+      <input class="form-input" type="text" placeholder="Full Name" required />
+      <input class="form-input" type="email" placeholder="Email Address" required />
+      <textarea class="form-input" placeholder="Why do you want to volunteer?" rows="4"></textarea>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <div id="photo-upload-section" class="container">
+    <h2>Upload Volunteer Photo</h2>
+    <p>Share your volunteering experience by uploading a photo! Photos will be reviewed and approved before points are awarded.</p>
+    
+    <div class="approval-notice">
+      <strong>📋 Approval Process:</strong><br>
+      • Your photo submission will be sent to sankalpkashyap10@gmail.com for review<br>
+      • You will receive 50 points once your submission is approved<br>
+      • Please ensure your photo clearly shows your volunteering activity<br>
+      • Include a detailed description of your volunteer work
+    </div>
+
+    <form id="photo-form">
+      <input class="form-input" type="text" id="volunteer-name" placeholder="Your Name" required />
+      <input class="form-input" type="email" id="volunteer-email" placeholder="Your Email Address" required />
+      <input class="form-input" type="text" id="ngo-name" placeholder="NGO Name" required />
+      <input class="form-input" type="file" id="photo-upload" accept="image/*" required />
+      <textarea class="form-input" id="photo-description" placeholder="Describe your volunteering experience in detail..." rows="4" required></textarea>
+      <button type="submit">Submit for Approval</button>
+    </form>
+
+    <div class="pending-submissions" id="pending-submissions" style="display: none;">
+      <h3 style="color: #66fcf1;">Your Pending Submissions</h3>
+      <div id="pending-list"></div>
+    </div>
+  </div>
+
+  <div id="leaderboard" class="container">
+    <h2 style="color: #66fcf1; font-size: 2.5em; margin-bottom: 1em; text-align: center;">LEADERBOARD</h2>
+    <p>Celebrate our most active changemakers!</p>
+    
+    <h3 style="color: #66fcf1; font-size: 1.8em;">Points & Badges</h3>
+    <ul>
+      <li><strong>Points:</strong> Earn points for signing up, attending events, sharing opportunities, and more.</li>
+      <li><strong>Badges:</strong> Achieve badges like "Tree Planter," "Weekly Warrior," and "Event Star."</li>
+      <li><strong>Leaderboard:</strong> See top contributors weekly/monthly by NGO or cause like environment or education.</li>
+    </ul>
+    
+    <h3 style="color: #66fcf1; font-size: 1.8em;">Missions & Challenges</h3>
+    <ul>
+      <li>Volunteer for 3 different NGOs this month.</li>
+      <li>Bring 2 friends to register.</li>
+      <li>Complete a full week of volunteering.</li>
+    </ul>
+    <p>Complete these challenges to unlock digital rewards or exclusive content!</p>
+
+    <div class="theme-selector">
+      <h3 style="color: #66fcf1; font-size: 1.8em;">Customize Your Experience</h3>
+      <p>Unlock new themes with your points!</p>
+      <div>
+        <div class="theme-option theme-original" onclick="changeTheme('original')" title="Original Theme (Free)"></div>
+        <div class="theme-option theme-green-option" id="green-theme" onclick="changeTheme('green')" title="Green Theme (50 points)"></div>
+        <div class="theme-option theme-purple-option" id="purple-theme" onclick="changeTheme('purple')" title="Purple Theme (100 points)"></div>
+        <div class="theme-option theme-blue-option" id="blue-theme" onclick="changeTheme('blue')" title="Blue Theme (150 points)"></div>
+        <div class="theme-option theme-galaxy-option" id="galaxy-theme" onclick="changeTheme('galaxy')" title="Galaxy Theme (300 points)"></div>
+      </div>
+      <p><small>Original: Free | Green: 50 pts | Purple: 100 pts | Blue: 150 pts | Galaxy: 300 pts</small></p>
+    </div>
+
+    <div class="badges-section">
+      <h3 style="color: #66fcf1; font-size: 1.8em;">Achievement Badges</h3>
+      <p>Earn badges by reaching point milestones!</p>
+      <div class="badges-container" id="badges-container">
+        <div class="badge-item" id="badge-100">
+          <div class="badge-icon">🏆</div>
+          <div class="badge-name">Volunteer Champion</div>
+          <div class="badge-description">First major milestone</div>
+          <div class="badge-points">100 points</div>
+        </div>
+        <div class="badge-item" id="badge-150">
+          <div class="badge-icon">⭐</div>
+          <div class="badge-name">Rising Star</div>
+          <div class="badge-description">Consistent contributor</div>
+          <div class="badge-points">150 points</div>
+        </div>
+        <div class="badge-item" id="badge-200">
+          <div class="badge-icon">🎯</div>
+          <div class="badge-name">Impact Maker</div>
+          <div class="badge-description">Making real change</div>
+          <div class="badge-points">200 points</div>
+        </div>
+        <div class="badge-item" id="badge-250">
+          <div class="badge-icon">💎</div>
+          <div class="badge-name">Diamond Volunteer</div>
+          <div class="badge-description">Elite contributor</div>
+          <div class="badge-points">250 points</div>
+        </div>
+        <div class="badge-item" id="badge-300">
+          <div class="badge-icon">🌟</div>
+          <div class="badge-name">Galaxy Guardian</div>
+          <div class="badge-description">Legendary status</div>
+          <div class="badge-points">300 points</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color: #66fcf1; font-size: 1.8em; margin-top: 2em;">Approved Volunteer Photo Gallery</h3>
+    <p>Photos of volunteers making a difference - all approved submissions will appear here!</p>
+    <div class="photo-gallery" id="photo-gallery">
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2em; color: #45a29e;">
+        <p>📸 No approved photos yet. Be the first to submit your volunteer photo!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Volunteer Modal -->
+  <div id="volunteer-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeVolunteerModal()">&times;</span>
+      <h2 id="modal-ngo-name">Volunteer for NGO</h2>
+      <p>Upload a photo of your volunteering experience for approval to earn 50 points!</p>
+      <form id="volunteer-photo-form">
+        <input class="form-input" type="text" id="modal-volunteer-name" placeholder="Your Name" required />
+        <input class="form-input" type="email" id="modal-volunteer-email" placeholder="Your Email Address" required />
+        <input class="form-input" type="file" id="modal-photo-upload" accept="image/*" required />
+        <textarea class="form-input" id="modal-photo-description" placeholder="Describe your volunteering experience in detail..." rows="3" required></textarea>
+        <button type="submit">Submit for Approval</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Change The Game. Empowering change in Bangalore. Built with love and purpose.
+  </footer>
+
+  <script>
+    let userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+    let approvedPhotos = JSON.parse(localStorage.getItem('approvedPhotos')) || [];
+    let pendingSubmissions = JSON.parse(localStorage.getItem('pendingSubmissions')) || [];
+    let currentNGO = '';
+
+    // Update points display
+    function updatePointsDisplay() {
+      document.getElementById('user-points').textContent = userPoints;
+      updateThemeAvailability();
+      updateBadges();
+    }
+
+    // Update theme availability based on points
+    function updateThemeAvailability() {
+      const greenTheme = document.getElementById('green-theme');
+      const purpleTheme = document.getElementById('purple-theme');
+      const blueTheme = document.getElementById('blue-theme');
+      const galaxyTheme = document.getElementById('galaxy-theme');
+      
+      if (userPoints < 50) {
+        greenTheme.classList.add('disabled');
+        purpleTheme.classList.add('disabled');
+        blueTheme.classList.add('disabled');
+        galaxyTheme.classList.add('disabled');
+      } else if (userPoints < 100) {
+        greenTheme.classList.remove('disabled');
+        purpleTheme.classList.add('disabled');
+        blueTheme.classList.add('disabled');
+        galaxyTheme.classList.add('disabled');
+      } else if (userPoints < 150) {
+        greenTheme.classList.remove('disabled');
+        purpleTheme.classList.remove('disabled');
+        blueTheme.classList.add('disabled');
+        galaxyTheme.classList.add('disabled');
+      } else if (userPoints < 300) {
+        greenTheme.classList.remove('disabled');
+        purpleTheme.classList.remove('disabled');
+        blueTheme.classList.remove('disabled');
+        galaxyTheme.classList.add('disabled');
+      } else {
+        greenTheme.classList.remove('disabled');
+        purpleTheme.classList.remove('disabled');
+        blueTheme.classList.remove('disabled');
+        galaxyTheme.classList.remove('disabled');
+      }
+    }
+
+    // Update badges based on points
+    function updateBadges() {
+      const badges = [
+        { id: 'badge-100', points: 100 },
+        { id: 'badge-150', points: 150 },
+        { id: 'badge-200', points: 200 },
+        { id: 'badge-250', points: 250 },
+        { id: 'badge-300', points: 300 }
+      ];
+
+      badges.forEach(badge => {
+        const badgeElement = document.getElementById(badge.id);
+        const badgeIcon = badgeElement.querySelector('.badge-icon');
+        
+        if (userPoints >= badge.points) {
+          badgeElement.classList.add('earned');
+          badgeIcon.classList.add('earned');
+        } else {
+          badgeElement.classList.remove('earned');
+          badgeIcon.classList.remove('earned');
+        }
+      });
+    }
+
+    // Change theme
+    function changeTheme(theme) {
+      const body = document.body;
+      
+      if (theme === 'green' && userPoints < 50) {
+        alert('You need 50 points to unlock this theme!');
+        return;
+      }
+      if (theme === 'purple' && userPoints < 100) {
+        alert('You need 100 points to unlock this theme!');
+        return;
+      }
+      if (theme === 'blue' && userPoints < 150) {
+        alert('You need 150 points to unlock this theme!');
+        return;
+      }
+      if (theme === 'galaxy' && userPoints < 300) {
+        alert('You need 300 points to unlock this theme!');
+        return;
+      }
+      
+      body.className = '';
+      if (theme === 'green') {
+        body.classList.add('theme-green');
+      } else if (theme === 'purple') {
+        body.classList.add('theme-purple');
+      } else if (theme === 'blue') {
+        body.classList.add('theme-blue');
+      } else if (theme === 'galaxy') {
+        body.classList.add('theme-galaxy');
+      }
+      
+      localStorage.setItem('selectedTheme', theme);
+    }
+
+    // Open volunteer modal
+    function openVolunteerModal(ngoName) {
+      currentNGO = ngoName;
+      document.getElementById('modal-ngo-name').textContent = `Volunteer for ${ngoName}`;
+      document.getElementById('volunteer-modal').style.display = 'block';
+    }
+
+    // Close volunteer modal
+    function closeVolunteerModal() {
+      document.getElementById('volunteer-modal').style.display = 'none';
+      document.getElementById('volunteer-photo-form').reset();
+    }
+
+    // Add points (only called when approved)
+    function addPoints(points) {
+      const oldPoints = userPoints;
+      userPoints += points;
+      localStorage.setItem('userPoints', userPoints);
+      updatePointsDisplay();
+      
+      // Check for new badge achievements
+      const badges = [100, 150, 200, 250, 300];
+      badges.forEach(badgePoints => {
+        if (oldPoints < badgePoints && userPoints >= badgePoints) {
+          setTimeout(() => {
+            alert(`🎉 Congratulations! You've earned a new badge for reaching ${badgePoints} points!`);
+          }, 500);
+        }
+      });
+    }
+
+    // Handle photo submission for approval
+    function handlePhotoSubmission(event, ngoName = null) {
+      event.preventDefault();
+      
+      const form = event.target;
+      const volunteerName = form.querySelector('input[placeholder="Your Name"]').value;
+      const volunteerEmail = form.querySelector('input[placeholder="Your Email Address"]').value;
+      const photoFile = form.querySelector('input[type="file"]').files[0];
+      const description = form.querySelector('textarea').value;
+      const ngo = ngoName || currentNGO || form.querySelector('input[placeholder="NGO Name"]')?.value;
+      
+      if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const submission = {
+            id: Date.now(),
+            volunteerName: volunteerName,
+            volunteerEmail: volunteerEmail,
+            ngoName: ngo,
+            description: description,
+            imageData: e.target.result,
+            timestamp: new Date().toLocaleString(),
+            status: 'pending'
+          };
+          
+          pendingSubmissions.push(submission);
+          localStorage.setItem('pendingSubmissions', JSON.stringify(pendingSubmissions));
+          
+          // Create email content
+          const emailSubject = `Volunteer Photo Submission - ${volunteerName}`;
+          const emailBody = `
+New volunteer photo submission for approval:
+
+Volunteer Name: ${volunteerName}
+Volunteer Email: ${volunteerEmail}
+NGO: ${ngo}
+Submission Date: ${submission.timestamp}
+
+Description:
+${description}
+
+Please review the attached photo and approve if appropriate. Once approved, the volunteer will receive 50 points.
+
+Submission ID: ${submission.id}
+          `;
+          
+          // Create mailto link (note: image attachment won't work via mailto)
+          const mailtoLink = `mailto:sankalpkashyap10@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+          
+          // Open email client
+          window.open(mailtoLink);
+          
+          displayPendingSubmissions();
+          form.reset();
+          
+          if (ngoName) {
+            closeVolunteerModal();
+          }
+          
+          alert(`Photo submitted for approval! An email has been sent to sankalpkashyap10@gmail.com. You will receive 50 points once your submission is approved.`);
+        };
+        reader.readAsDataURL(photoFile);
+      }
+    }
+
+    // Display pending submissions
+    function displayPendingSubmissions() {
+      const pendingSection = document.getElementById('pending-submissions');
+      const pendingList = document.getElementById('pending-list');
+      
+      if (pendingSubmissions.length > 0) {
+        pendingSection.style.display = 'block';
+        pendingList.innerHTML = '';
+        
+        pendingSubmissions.forEach(submission => {
+          const submissionDiv = document.createElement('div');
+          submissionDiv.className = 'pending-item';
+          submissionDiv.innerHTML = `
+            <div class="pending-status">⏳ PENDING APPROVAL</div>
+            <p><strong>NGO:</strong> ${submission.ngoName}</p>
+            <p><strong>Submitted:</strong> ${submission.timestamp}</p>
+            <p><strong>Description:</strong> ${submission.description}</p>
+          `;
+          pendingList.appendChild(submissionDiv);
+        });
+      } else {
+        pendingSection.style.display = 'none';
+      }
+    }
+
+    // Display approved photos in gallery
+    function displayApprovedPhotos() {
+      const gallery = document.getElementById('photo-gallery');
+      
+      if (approvedPhotos.length === 0) {
+        gallery.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 2em; color: #45a29e;">
+            <p>📸 No approved photos yet. Be the first to submit your volunteer photo!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      gallery.innerHTML = '';
+      
+      approvedPhotos.forEach(photo => {
+        const photoDiv = document.createElement('div');
+        photoDiv.className = 'photo-item';
+        photoDiv.innerHTML = `
+          <img src="${photo.imageData}" alt="Volunteer photo">
+          <p><strong>${photo.volunteerName}</strong> volunteered at <strong>${photo.ngoName}</strong></p>
+          <p><small>${photo.description}</small></p>
+          <p><small>Approved: ${photo.approvedDate}</small></p>
+        `;
+        gallery.appendChild(photoDiv);
+      });
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      updatePointsDisplay();
+      displayApprovedPhotos();
+      displayPendingSubmissions();
+      
+      // Load saved theme
+      const savedTheme = localStorage.getItem('selectedTheme');
+      if (savedTheme) {
+        changeTheme(savedTheme);
+      }
+      
+      // Photo submission form handlers
+      document.getElementById('photo-form').addEventListener('submit', handlePhotoSubmission);
+      document.getElementById('volunteer-photo-form').addEventListener('submit', function(e) {
+        handlePhotoSubmission(e, currentNGO);
+      });
+      
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        const modal = document.getElementById('volunteer-modal');
+        if (event.target === modal) {
+          closeVolunteerModal();
+        }
+      };
+    });
+  </script>
+</body>
+</html>
