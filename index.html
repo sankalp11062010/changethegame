@@ -358,6 +358,26 @@
       font-weight: bold;
       margin-bottom: 0.5em;
     }
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .success-message {
+      background: #2d4a22;
+      border: 1px solid #4caf50;
+      padding: 1em;
+      border-radius: 4px;
+      margin-top: 1em;
+      color: #c8e6c9;
+    }
+    .error-message {
+      background: #4a2d2d;
+      border: 1px solid #f44336;
+      padding: 1em;
+      border-radius: 4px;
+      margin-top: 1em;
+      color: #ffcdd2;
+    }
     
     /* Responsive Design */
     @media (max-width: 768px) {
@@ -666,8 +686,10 @@
       <input class="form-input" type="text" id="ngo-name" placeholder="NGO Name" required />
       <input class="form-input" type="file" id="photo-upload" accept="image/*" required />
       <textarea class="form-input" id="photo-description" placeholder="Describe your volunteering experience in detail..." rows="4" required></textarea>
-      <button type="submit">Submit for Approval</button>
+      <button type="submit" id="submit-btn">Submit for Approval</button>
     </form>
+
+    <div id="message-container"></div>
 
     <div class="pending-submissions" id="pending-submissions" style="display: none;">
       <h3 style="color: #66fcf1;">Your Pending Submissions</h3>
@@ -764,8 +786,9 @@
         <input class="form-input" type="email" id="modal-volunteer-email" placeholder="Your Email Address" required />
         <input class="form-input" type="file" id="modal-photo-upload" accept="image/*" required />
         <textarea class="form-input" id="modal-photo-description" placeholder="Describe your volunteering experience in detail..." rows="3" required></textarea>
-        <button type="submit">Submit for Approval</button>
+        <button type="submit" id="modal-submit-btn">Submit for Approval</button>
       </form>
+      <div id="modal-message-container"></div>
     </div>
   </div>
 
@@ -891,6 +914,7 @@
     function closeVolunteerModal() {
       document.getElementById('volunteer-modal').style.display = 'none';
       document.getElementById('volunteer-photo-form').reset();
+      document.getElementById('modal-message-container').innerHTML = '';
     }
 
     // Add points (only called when approved)
@@ -911,11 +935,83 @@
       });
     }
 
+    // Show message
+    function showMessage(container, message, type) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+      messageDiv.innerHTML = message;
+      container.innerHTML = '';
+      container.appendChild(messageDiv);
+      
+      setTimeout(() => {
+        messageDiv.remove();
+      }, 5000);
+    }
+
+    // Send email using EmailJS or similar service
+    async function sendEmailNotification(submissionData) {
+      try {
+        // Using a free email service like EmailJS
+        // You'll need to set up an EmailJS account and get your service ID, template ID, and user ID
+        
+        const emailData = {
+          to_email: 'sankalpkashyap10@gmail.com',
+          from_name: submissionData.volunteerName,
+          from_email: submissionData.volunteerEmail,
+          ngo_name: submissionData.ngoName,
+          description: submissionData.description,
+          submission_date: submissionData.timestamp,
+          submission_id: submissionData.id
+        };
+
+        // For now, we'll use a webhook service like Formspree or similar
+        const response = await fetch('https://formspree.io/f/xpwaaklw', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subject: `Volunteer Photo Submission - ${submissionData.volunteerName}`,
+            message: `
+New volunteer photo submission for approval:
+
+Volunteer Name: ${submissionData.volunteerName}
+Volunteer Email: ${submissionData.volunteerEmail}
+NGO: ${submissionData.ngoName}
+Submission Date: ${submissionData.timestamp}
+
+Description:
+${submissionData.description}
+
+Please review the submission and approve if appropriate. Once approved, the volunteer will receive 50 points.
+
+Submission ID: ${submissionData.id}
+            `,
+            _replyto: submissionData.volunteerEmail
+          })
+        });
+
+        return response.ok;
+      } catch (error) {
+        console.error('Email sending failed:', error);
+        return false;
+      }
+    }
+
     // Handle photo submission for approval
-    function handlePhotoSubmission(event, ngoName = null) {
+    async function handlePhotoSubmission(event, ngoName = null) {
       event.preventDefault();
       
       const form = event.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const messageContainer = form.closest('.container').querySelector('#message-container') || 
+                              form.closest('.modal-content').querySelector('#modal-message-container');
+      
+      // Show loading state
+      submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+      
       const volunteerName = form.querySelector('input[placeholder="Your Name"]').value;
       const volunteerEmail = form.querySelector('input[placeholder="Your Email Address"]').value;
       const photoFile = form.querySelector('input[type="file"]').files[0];
@@ -924,7 +1020,7 @@
       
       if (photoFile) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = async function(e) {
           const submission = {
             id: Date.now(),
             volunteerName: volunteerName,
@@ -936,41 +1032,36 @@
             status: 'pending'
           };
           
-          pendingSubmissions.push(submission);
-          localStorage.setItem('pendingSubmissions', JSON.stringify(pendingSubmissions));
+          // Try to send email notification
+          const emailSent = await sendEmailNotification(submission);
           
-          // Create email content
-          const emailSubject = `Volunteer Photo Submission - ${volunteerName}`;
-          const emailBody = `
-New volunteer photo submission for approval:
-
-Volunteer Name: ${volunteerName}
-Volunteer Email: ${volunteerEmail}
-NGO: ${ngo}
-Submission Date: ${submission.timestamp}
-
-Description:
-${description}
-
-Please review the attached photo and approve if appropriate. Once approved, the volunteer will receive 50 points.
-
-Submission ID: ${submission.id}
-          `;
-          
-          // Create mailto link (note: image attachment won't work via mailto)
-          const mailtoLink = `mailto:sankalpkashyap10@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-          
-          // Open email client
-          window.open(mailtoLink);
-          
-          displayPendingSubmissions();
-          form.reset();
-          
-          if (ngoName) {
-            closeVolunteerModal();
+          if (emailSent) {
+            // Save to local storage
+            pendingSubmissions.push(submission);
+            localStorage.setItem('pendingSubmissions', JSON.stringify(pendingSubmissions));
+            
+            displayPendingSubmissions();
+            form.reset();
+            
+            if (ngoName) {
+              closeVolunteerModal();
+            }
+            
+            showMessage(messageContainer, 
+              '✅ Photo submitted successfully! An email notification has been sent to sankalpkashyap10@gmail.com for review. You will receive 50 points once approved.', 
+              'success'
+            );
+          } else {
+            showMessage(messageContainer, 
+              '❌ There was an issue sending the email notification. Please try again or contact sankalpkashyap10@gmail.com directly.', 
+              'error'
+            );
           }
           
-          alert(`Photo submitted for approval! An email has been sent to sankalpkashyap10@gmail.com. You will receive 50 points once your submission is approved.`);
+          // Reset button state
+          submitBtn.classList.remove('loading');
+          submitBtn.textContent = 'Submit for Approval';
+          submitBtn.disabled = false;
         };
         reader.readAsDataURL(photoFile);
       }
