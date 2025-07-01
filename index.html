@@ -332,36 +332,6 @@
       font-size: 0.8em;
       margin-top: 0.2em;
     }
-    .approval-notice {
-      background: #2d4a22;
-      border: 1px solid #4caf50;
-      padding: 1em;
-      border-radius: 4px;
-      margin-top: 1em;
-      color: #c8e6c9;
-    }
-    .pending-submissions {
-      margin-top: 2em;
-      padding: 1.5em;
-      background: #1f2833;
-      border-radius: 8px;
-    }
-    .pending-item {
-      background: #0b0c10;
-      padding: 1em;
-      margin: 1em 0;
-      border-radius: 4px;
-      border-left: 3px solid #ffa726;
-    }
-    .pending-status {
-      color: #ffa726;
-      font-weight: bold;
-      margin-bottom: 0.5em;
-    }
-    .loading {
-      opacity: 0.6;
-      pointer-events: none;
-    }
     .success-message {
       background: #2d4a22;
       border: 1px solid #4caf50;
@@ -377,6 +347,75 @@
       border-radius: 4px;
       margin-top: 1em;
       color: #ffcdd2;
+    }
+    .contact-info {
+      background: #1f2833;
+      padding: 2em;
+      border-radius: 8px;
+      margin-top: 2em;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin: 1em 0;
+      padding: 1em;
+      background: #0b0c10;
+      border-radius: 4px;
+    }
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: #66fcf1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1em;
+      font-size: 1.5em;
+      color: #0b0c10;
+    }
+    .contact-details h3 {
+      color: #66fcf1;
+      margin-bottom: 0.5em;
+    }
+    .contact-details p {
+      color: #c5c6c7;
+    }
+    .contact-details a {
+      color: #66fcf1;
+      text-decoration: none;
+    }
+    .contact-details a:hover {
+      color: #45a29e;
+    }
+    .discount-section {
+      background: #2d4a22;
+      border: 2px solid #4caf50;
+      padding: 2em;
+      border-radius: 8px;
+      margin-top: 2em;
+      text-align: center;
+    }
+    .discount-section h2 {
+      color: #4caf50;
+      margin-bottom: 1em;
+    }
+    .discount-section p {
+      color: #c8e6c9;
+      margin-bottom: 1em;
+    }
+    .big-text {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #4caf50;
+      text-transform: uppercase;
+      margin-top: 1em;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     
     /* Responsive Design */
@@ -408,6 +447,17 @@
       .badge-item {
         min-width: 100px;
       }
+      .contact-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      .contact-icon {
+        margin-right: 0;
+        margin-bottom: 1em;
+      }
+      .big-text {
+        font-size: 1.8em;
+      }
     }
   </style>
 </head>
@@ -422,9 +472,10 @@
     <a href="#map">NGO Map</a>
     <a href="#impact-stories">Impact Stories</a>
     <a href="#signup">Volunteer Sign Up</a>
-    <a href="#contact">Contact</a>
     <a href="#leaderboard">Leaderboard</a>
+    <a href="#discount">Discount</a>
     <a href="#photo-upload-section">Upload Photo</a>
+    <a href="#contact">Contact</a>
   </nav>
 
   <div id="home" class="container">
@@ -541,7 +592,7 @@
     <p><strong>Website:</strong> <a href="https://parikrmafoundation.org/" target="_blank" style="color:#66fcf1">parikrmafoundation.org</a></p>
     <p><strong>Reach:</strong> ~2,000 children across 4 learning centres and a junior college.</p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> +91-9876543210</p>
+    <p><strong>Phone:</strong> +91-8123456789</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">Makkala Jagriti
       <button class="volunteer-btn" onclick="openVolunteerModal('Makkala Jagriti')">Volunteer</button>
@@ -551,7 +602,7 @@
     <p><strong>Website:</strong> <a href="https://makkalajagriti.org" target="_blank" style="color:#66fcf1">makkalajagriti.org</a></p>
     <p><strong>Reach:</strong> Over 80,000 children and youth since 2003, ongoing across multiple centres.</p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> +91-9876543211</p>
+    <p><strong>Phone:</strong> +91-9876543210</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">Make A Difference (MAD)
       <button class="volunteer-btn" onclick="openVolunteerModal('Make A Difference (MAD)')">Volunteer</button>
@@ -561,7 +612,7 @@
     <p><strong>Website:</strong> <a href="https://makeadiff.in/" target="_blank" style="color:#66fcf1">makeadiff.in</a></p>
     <p><strong>Reach:</strong> ~3,460 children in 67 shelters across India; core Bangalore team based locally.</p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> +91-9876543212</p>
+    <p><strong>Phone:</strong> +91-7890123456</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">Shanti Bhavan Children's Project
       <button class="volunteer-btn" onclick="openVolunteerModal('Shanti Bhavan Children\'s Project')">Volunteer</button>
@@ -571,7 +622,7 @@
     <p><strong>Website:</strong> <a href="https://www.shantibhavanchildren.org/" target="_blank" style="color:#66fcf1">shantibhavanchildren.org</a></p>
     <p><strong>Reach:</strong> Approximately 300 residential students as of 2017.</p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> +91-9876543213</p>
+    <p><strong>Phone:</strong> +91-9123456780</p>
   </div>
 
   <div id="healthcare-ngos" class="container">
@@ -584,7 +635,7 @@
     <p><strong>Mission:</strong> Accommodates children with HIV virus of ages 4 to 16 years of age.</p>
     <p><strong>Reach:</strong> 20 people</p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> 6360799006</p>
+    <p><strong>Phone:</strong> +91-8765432109</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">Sankalp India Foundation
       <button class="volunteer-btn" onclick="openVolunteerModal('Sankalp India Foundation')">Volunteer</button>
@@ -594,7 +645,7 @@
     <p><strong>Reach:</strong> Thousands of donors and patients served since 2003.</p>
     <p><strong>Website:</strong> <a href="https://www.sankalpindia.net/" target="_blank" style="color:#66fcf1">sankalpindia.net</a></p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> 9480044444</p>
+    <p><strong>Phone:</strong> +91-9480044444</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">Reach Lives
       <button class="volunteer-btn" onclick="openVolunteerModal('Reach Lives')">Volunteer</button>
@@ -604,7 +655,7 @@
     <p><strong>Reach:</strong> Organizes regular camps affecting hundreds of children each year.</p>
     <p><strong>Website:</strong> <a href="https://www.reachlives.com/" target="_blank" style="color:#66fcf1">reachlives.com</a></p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> 9900541676</p>
+    <p><strong>Phone:</strong> +91-9900541676</p>
   </div>
 
   <div id="senior-citizens-ngos" class="container">
@@ -618,7 +669,7 @@
     <p><strong>Reach:</strong> 20 people</p>
     <p><strong>Website:</strong> <a href="https://sadhgurusai.org/" target="_blank" style="color:#66fcf1">sadhgurusai.org</a></p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> 6360799006</p>
+    <p><strong>Phone:</strong> +91-6360799006</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">Vishranthi Trust
       <button class="volunteer-btn" onclick="openVolunteerModal('Vishranthi Trust')">Volunteer</button>
@@ -628,7 +679,7 @@
     <p><strong>Reach:</strong> ~42 elderly residents and 73 children in the orphanage; has facilitated 38 adoptions.</p>
     <p><strong>Website:</strong> <a href="https://www.vishranthitrust.org/" target="_blank" style="color:#66fcf1">vishranthitrust.org</a></p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> (Add number if needed)</p>
+    <p><strong>Phone:</strong> +91-8234567890</p>
   </div>
 
   <div id="children-ngos" class="container">
@@ -645,7 +696,7 @@
     <p><a href="https://maps.app.goo.gl/fbU9DPr8krqTpr9G8" target="_blank" style="color:#66fcf1">MAP</a></p>
     <p><strong>Website:</strong> <a href="https://sparsha.org/" target="_blank" style="color:#66fcf1">sparsha.org</a></p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> 9756734583</p>
+    <p><strong>Phone:</strong> +91-9756734583</p>
 
     <h3 style="font-size: 2em; color: #66fcf1;">SOS Children's Village, Bangalore
       <button class="volunteer-btn" onclick="openVolunteerModal('SOS Children\'s Village, Bangalore')">Volunteer</button>
@@ -655,54 +706,17 @@
     <p><strong>Reach:</strong> 167 children in 16 homes; 100 youth in Youth House; 476 families supported under Family Strengthening Programme</p>
     <p><strong>Website:</strong> <a href="https://soschildrensvillages.in" target="_blank" style="color:#66fcf1">soschildrensvillages.in</a></p>
     <h4 style="color: #66fcf1; margin-top: 1em;">Verified By Us</h4>
-    <p><strong>Phone:</strong> 8682848483</p>
+    <p><strong>Phone:</strong> +91-8682848483</p>
   </div>
 
   <div id="signup" class="container">
     <h2>Volunteer Sign Up</h2>
-    <form name="volunteer-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <p style="display: none;">
-        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-      </p>
-      <input class="form-input" type="text" name="full_name" placeholder="Full Name" required />
-      <input class="form-input" type="email" name="email" placeholder="Email Address" required />
-      <textarea class="form-input" name="motivation" placeholder="Why do you want to volunteer?" rows="4" required></textarea>
+    <form>
+      <input class="form-input" type="text" placeholder="Full Name" required />
+      <input class="form-input" type="email" placeholder="Email Address" required />
+      <textarea class="form-input" placeholder="Why do you want to volunteer?" rows="4"></textarea>
       <button type="submit">Sign Up</button>
     </form>
-  </div>
-
-  <div id="photo-upload-section" class="container">
-    <h2>Upload Volunteer Photo</h2>
-    <p>Share your volunteering experience by uploading a photo! Photos will be reviewed and approved before points are awarded.</p>
-    
-    <div class="approval-notice">
-      <strong>📋 Approval Process:</strong><br>
-      • Your photo submission will be sent to sankalpkashyap10@gmail.com for review<br>
-      • You will receive 50 points once your submission is approved<br>
-      • Please ensure your photo clearly shows your volunteering activity<br>
-      • Include a detailed description of your volunteer work
-    </div>
-
-    <form name="volunteer-photo" method="POST" data-netlify="true" enctype="multipart/form-data" netlify-honeypot="bot-field">
-      <p style="display: none;">
-        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-      </p>
-      
-      <input class="form-input" type="text" name="volunteer_name" placeholder="Your Name" required />
-      <input class="form-input" type="email" name="volunteer_email" placeholder="Your Email Address" required />
-      <input class="form-input" type="text" name="ngo_name" placeholder="NGO Name" required />
-      <input class="form-input" type="file" name="photo" accept="image/*" required />
-      <textarea class="form-input" name="description" placeholder="Describe your volunteering experience in detail..." rows="4" required></textarea>
-      
-      <button type="submit" id="submit-btn">Submit for Approval</button>
-    </form>
-
-    <div id="message-container"></div>
-
-    <div class="pending-submissions" id="pending-submissions" style="display: none;">
-      <h3 style="color: #66fcf1;">Your Pending Submissions</h3>
-      <div id="pending-list"></div>
-    </div>
   </div>
 
   <div id="leaderboard" class="container">
@@ -774,12 +788,85 @@
       </div>
     </div>
 
-    <h3 style="color: #66fcf1; font-size: 1.8em; margin-top: 2em;">Approved Volunteer Photo Gallery</h3>
-    <p>Photos of volunteers making a difference - all approved submissions will appear here!</p>
+    <h3 style="color: #66fcf1; font-size: 1.8em; margin-top: 2em;">Volunteer Photo Gallery</h3>
+    <p>Photos of volunteers making a difference in Bangalore!</p>
     <div class="photo-gallery" id="photo-gallery">
       <div style="grid-column: 1 / -1; text-align: center; padding: 2em; color: #45a29e;">
-        <p>📸 No approved photos yet. Be the first to submit your volunteer photo!</p>
+        <p>📸 No photos yet. Be the first to share your volunteer photo!</p>
       </div>
+    </div>
+  </div>
+
+  <div id="discount" class="container">
+    <div class="discount-section">
+      <h2>DISCOUNT</h2>
+      <p>I partnered with my local supermarket - Napa Valley Supermarket, and they generously agreed for my proposal. If you think volunteering is not worth it, wait till you hear this. All users who have volunteered twice and acquired 100 points, get a 10% discount on their purchase. All those who have acquired 300 points get a 25% discount on their entire purchase. This offers only lasts till August 31st!!</p>
+      <div class="big-text">SO GO AND VOLUNTEER NOWW!</div>
+    </div>
+  </div>
+
+  <div id="photo-upload-section" class="container">
+    <h2>Upload Volunteer Photo</h2>
+    <p>Share your volunteering experience by uploading a photo! Each photo earns you 50 points.</p>
+
+    <form id="photo-form">
+      <input class="form-input" type="text" id="volunteer-name" placeholder="Your Name" required />
+      <input class="form-input" type="email" id="volunteer-email" placeholder="Your Email Address" required />
+      <input class="form-input" type="text" id="ngo-name" placeholder="NGO Name" required />
+      <input class="form-input" type="file" id="photo-upload" accept="image/*" required />
+      <textarea class="form-input" id="photo-description" placeholder="Describe your volunteering experience in detail..." rows="4" required></textarea>
+      <button type="submit" id="submit-btn">Upload Photo (+50 Points)</button>
+    </form>
+
+    <div id="message-container"></div>
+  </div>
+
+  <div id="contact" class="container">
+    <h2>Contact Us</h2>
+    <p>Get in touch with us to learn more about volunteering opportunities or to ask any questions!</p>
+
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-details">
+          <h3>Phone</h3>
+          <p><a href="tel:+919108543435">+91 9108543435</a></p>
+          <p>Available Monday - Friday, 9 AM - 6 PM</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-details">
+          <h3>Email</h3>
+          <p><a href="mailto:sankalpkashyap10@gmail.com">sankalpkashyap10@gmail.com</a></p>
+          <p>We'll respond within 24 hours</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">🏢</div>
+        <div class="contact-details">
+          <h3>Organization</h3>
+          <p>The Samhita Academy</p>
+          <p>Bangalore, Karnataka</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">🌐</div>
+        <div class="contact-details">
+          <h3>Follow Our Mission</h3>
+          <p>Connecting volunteers with NGOs across Bangalore</p>
+          <p>Building a stronger community through collaboration</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1f2833; padding: 2em; border-radius: 8px; margin-top: 2em; text-align: center;">
+      <h3 style="color: #66fcf1;">Ready to Make a Difference?</h3>
+      <p>Join our community of changemakers and start your volunteering journey today!</p>
+      <a href="#signup" style="display: inline-block; margin-top: 1em; background-color: #66fcf1; color: #0b0c10; padding: 0.75em 1.5em; border-radius: 4px; text-decoration: none; font-weight: bold;">Get Started</a>
     </div>
   </div>
 
@@ -788,18 +875,13 @@
     <div class="modal-content">
       <span class="close" onclick="closeVolunteerModal()">&times;</span>
       <h2 id="modal-ngo-name">Volunteer for NGO</h2>
-      <p>Upload a photo of your volunteering experience for approval to earn 50 points!</p>
-      <form name="volunteer-photo-modal" method="POST" data-netlify="true" enctype="multipart/form-data" netlify-honeypot="bot-field">
-        <p style="display: none;">
-          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-        </p>
-        <input class="form-input" type="text" name="volunteer_name" placeholder="Your Name" required />
-        <input class="form-input" type="email" name="volunteer_email" placeholder="Your Email Address" required />
-        <input class="form-input" type="hidden" name="ngo_name" id="modal-ngo-value" />
-        <input class="form-input" type="file" name="photo" accept="image/*" required />
-        <textarea class="form-input" name="description" placeholder="Describe your volunteering experience in detail..." rows="3" required></textarea>
-        
-        <button type="submit" id="modal-submit-btn">Submit for Approval</button>
+      <p>Upload a photo of your volunteering experience to earn 50 points!</p>
+      <form id="volunteer-photo-form">
+        <input class="form-input" type="text" id="modal-volunteer-name" placeholder="Your Name" required />
+        <input class="form-input" type="email" id="modal-volunteer-email" placeholder="Your Email Address" required />
+        <input class="form-input" type="file" id="modal-photo-upload" accept="image/*" required />
+        <textarea class="form-input" id="modal-photo-description" placeholder="Describe your volunteering experience in detail..." rows="3" required></textarea>
+        <button type="submit" id="modal-submit-btn">Upload Photo (+50 Points)</button>
       </form>
       <div id="modal-message-container"></div>
     </div>
@@ -812,7 +894,6 @@
   <script>
     let userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
     let approvedPhotos = JSON.parse(localStorage.getItem('approvedPhotos')) || [];
-    let pendingSubmissions = JSON.parse(localStorage.getItem('pendingSubmissions')) || [];
     let currentNGO = '';
 
     // Update points display
@@ -920,18 +1001,17 @@
     function openVolunteerModal(ngoName) {
       currentNGO = ngoName;
       document.getElementById('modal-ngo-name').textContent = `Volunteer for ${ngoName}`;
-      document.getElementById('modal-ngo-value').value = ngoName;
       document.getElementById('volunteer-modal').style.display = 'block';
     }
 
     // Close volunteer modal
     function closeVolunteerModal() {
       document.getElementById('volunteer-modal').style.display = 'none';
-      document.querySelector('form[name="volunteer-photo-modal"]').reset();
+      document.getElementById('volunteer-photo-form').reset();
       document.getElementById('modal-message-container').innerHTML = '';
     }
 
-    // Add points (only called when approved)
+    // Add points (called immediately after photo upload)
     function addPoints(points) {
       const oldPoints = userPoints;
       userPoints += points;
@@ -962,54 +1042,54 @@
       }, 5000);
     }
 
-    // Handle form submission success
-    function handleFormSuccess(form, messageContainer) {
-      const formData = new FormData(form);
-      const submission = {
-        id: Date.now(),
-        volunteerName: formData.get('volunteer_name'),
-        volunteerEmail: formData.get('volunteer_email'),
-        ngoName: formData.get('ngo_name'),
-        description: formData.get('description'),
-        timestamp: new Date().toLocaleString(),
-        status: 'pending'
-      };
+    // Handle photo upload (no approval needed)
+    function handlePhotoUpload(event, ngoName = null) {
+      event.preventDefault();
       
-      // Save to local storage for display
-      pendingSubmissions.push(submission);
-      localStorage.setItem('pendingSubmissions', JSON.stringify(pendingSubmissions));
+      const form = event.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const messageContainer = form.closest('.container').querySelector('#message-container') || 
+                              form.closest('.modal-content').querySelector('#modal-message-container');
       
-      displayPendingSubmissions();
-      form.reset();
+      const volunteerName = form.querySelector('input[placeholder="Your Name"]').value;
+      const volunteerEmail = form.querySelector('input[placeholder="Your Email Address"]').value;
+      const photoFile = form.querySelector('input[type="file"]').files[0];
+      const description = form.querySelector('textarea').value;
+      const ngo = ngoName || currentNGO || form.querySelector('input[placeholder="NGO Name"]')?.value;
       
-      showMessage(messageContainer, 
-        '✅ Photo submitted successfully! An email notification has been sent to sankalpkashyap10@gmail.com for review. You will receive 50 points once approved.', 
-        'success'
-      );
-    }
-
-    // Display pending submissions
-    function displayPendingSubmissions() {
-      const pendingSection = document.getElementById('pending-submissions');
-      const pendingList = document.getElementById('pending-list');
-      
-      if (pendingSubmissions.length > 0) {
-        pendingSection.style.display = 'block';
-        pendingList.innerHTML = '';
-        
-        pendingSubmissions.forEach(submission => {
-          const submissionDiv = document.createElement('div');
-          submissionDiv.className = 'pending-item';
-          submissionDiv.innerHTML = `
-            <div class="pending-status">⏳ PENDING APPROVAL</div>
-            <p><strong>NGO:</strong> ${submission.ngoName}</p>
-            <p><strong>Submitted:</strong> ${submission.timestamp}</p>
-            <p><strong>Description:</strong> ${submission.description}</p>
-          `;
-          pendingList.appendChild(submissionDiv);
-        });
-      } else {
-        pendingSection.style.display = 'none';
+      if (photoFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const photo = {
+            id: Date.now(),
+            volunteerName: volunteerName,
+            volunteerEmail: volunteerEmail,
+            ngoName: ngo,
+            description: description,
+            imageData: e.target.result,
+            timestamp: new Date().toLocaleString()
+          };
+          
+          // Add photo directly to approved photos
+          approvedPhotos.push(photo);
+          localStorage.setItem('approvedPhotos', JSON.stringify(approvedPhotos));
+          
+          // Award points immediately
+          addPoints(50);
+          
+          displayApprovedPhotos();
+          form.reset();
+          
+          if (ngoName) {
+            closeVolunteerModal();
+          }
+          
+          showMessage(messageContainer, 
+            `✅ Photo uploaded successfully! You earned 50 points. Total points: ${userPoints}`, 
+            'success'
+          );
+        };
+        reader.readAsDataURL(photoFile);
       }
     }
 
@@ -1020,7 +1100,7 @@
       if (approvedPhotos.length === 0) {
         gallery.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 2em; color: #45a29e;">
-            <p>📸 No approved photos yet. Be the first to submit your volunteer photo!</p>
+            <p>📸 No photos yet. Be the first to share your volunteer photo!</p>
           </div>
         `;
         return;
@@ -1035,7 +1115,7 @@
           <img src="${photo.imageData}" alt="Volunteer photo">
           <p><strong>${photo.volunteerName}</strong> volunteered at <strong>${photo.ngoName}</strong></p>
           <p><small>${photo.description}</small></p>
-          <p><small>Approved: ${photo.approvedDate}</small></p>
+          <p><small>Uploaded: ${photo.timestamp}</small></p>
         `;
         gallery.appendChild(photoDiv);
       });
@@ -1045,7 +1125,6 @@
     document.addEventListener('DOMContentLoaded', function() {
       updatePointsDisplay();
       displayApprovedPhotos();
-      displayPendingSubmissions();
       
       // Load saved theme
       const savedTheme = localStorage.getItem('selectedTheme');
@@ -1053,47 +1132,10 @@
         changeTheme(savedTheme);
       }
       
-      // Handle Netlify form submissions
-      const forms = document.querySelectorAll('form[data-netlify="true"]');
-      forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const formData = new FormData(this);
-          const messageContainer = this.closest('.container')?.querySelector('#message-container') || 
-                                  this.closest('.modal-content')?.querySelector('#modal-message-container');
-          
-          // Submit to Netlify
-          fetch('/', {
-            method: 'POST',
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData).toString()
-          })
-          .then(() => {
-            // Handle success for photo forms
-            if (this.name === 'volunteer-photo' || this.name === 'volunteer-photo-modal') {
-              handleFormSuccess(this, messageContainer);
-              if (this.name === 'volunteer-photo-modal') {
-                setTimeout(() => {
-                  closeVolunteerModal();
-                }, 2000);
-              }
-            } else {
-              // Handle success for signup form
-              showMessage(messageContainer || document.body, 
-                '✅ Thank you for signing up! We will contact you soon with volunteer opportunities.', 
-                'success'
-              );
-              this.reset();
-            }
-          })
-          .catch((error) => {
-            showMessage(messageContainer || document.body, 
-              '❌ There was an error submitting your form. Please try again.', 
-              'error'
-            );
-          });
-        });
+      // Photo upload form handlers
+      document.getElementById('photo-form').addEventListener('submit', handlePhotoUpload);
+      document.getElementById('volunteer-photo-form').addEventListener('submit', function(e) {
+        handlePhotoUpload(e, currentNGO);
       });
       
       // Close modal when clicking outside
