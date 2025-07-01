@@ -480,6 +480,54 @@
 
   <div id="home" class="container">
     <h1 class="tagline">BE THE CHANGE. HELP THOSE WHO HELP.</h1>
+   <!-- Place this after your "BE THE CHANGE" tagline -->
+<div id="slideshow-container" style="max-width:600px;margin:2em auto;">
+  <div style="text-align:center;margin-top:0.5em;">
+    <button onclick="changeSlide(-1)" style="background:#45a29e;color:#fff;border:none;padding:0.5em 1em;border-radius:3px;cursor:pointer;">&#10094; Prev</button>
+    <img id="slideshow-image" src="/1.jpg" alt="Slideshow" style="width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.2);" onerror="handleImageError(this)">
+    <span id="slideshow-indicator" style="color:#66fcf1;font-weight:bold;margin:0 1em;">1 / 5</span>
+    <button onclick="changeSlide(1)" style="background:#45a29e;color:#fff;border:none;padding:0.5em 1em;border-radius:3px;cursor:pointer;">Next &#10095;</button>
+  </div>
+  <div id="slideshow-error" style="display:none;text-align:center;color:#ff6b6b;margin-top:1em;">
+    <p>⚠️ Images not found. Please check your file paths.</p>
+  </div>
+</div>
+
+<script>
+  const images = [
+    '/1.jpg',
+    '/2.jpg',
+    '/3.jpg',
+    '/4.jpg',
+    '/5.jpg'
+  ];
+  let currentSlide = 0;
+  let imageErrors = 0;
+
+  function handleImageError(img) {
+    imageErrors++;
+    if (imageErrors >= 2) {
+      document.getElementById('slideshow-error').style.display = 'block';
+    }
+    console.log('Image failed to load:', img.src);
+  }
+
+  function showSlide(index) {
+    currentSlide = (index + images.length) % images.length;
+    const imgElement = document.getElementById('slideshow-image');
+    imgElement.src = images[currentSlide];
+    document.getElementById('slideshow-indicator').textContent = (currentSlide + 1) + ' / ' + images.length;
+  }
+
+  function changeSlide(step) {
+    showSlide(currentSlide + step);
+  }
+
+  setInterval(() => { changeSlide(1); }, 4000);
+  showSlide(0);
+</script>
+
+
     <h1>Welcome to Change The Game</h1>
     <h3><p>Change The Game aims to bridge the gap between passionate volunteers and impactful NGOs in Bangalore by creating a digital platform that promotes collaboration, amplifies social good, and empowers citizens to contribute meaningfully to causes they care about.</p></h3>
   </div>
